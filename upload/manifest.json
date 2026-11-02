@@ -1,0 +1,58 @@
+{
+    "name": "crm.public-forms",
+    "version": "1.0.7",
+    "vendor": "crm",
+    "author": "Anton Barinov",
+    "author_url": "https://github.com/Anton-Barinov",
+    "title": "Public Forms & Requests",
+    "description": "Конструктор публичных форм заявок, безопасная публикация ссылок и просмотр обращений клиентов",
+    "core_version": ">=1.0.0",
+    "license": "MIT",
+    "category": "crm",
+    "dependencies": [],
+    "require_permissions": [
+        "settings.view",
+        "settings.edit",
+        "client.manage"
+    ],
+    "service_provider": "Module\\Crm\\PublicForms\\PublicFormsServiceProvider",
+    "migrations": "api/migrations",
+    "api_routes": "api/config/routes.php",
+    "web_routes": "web/config/routes.php",
+    "menu_items": [
+        {
+            "id": "public-forms",
+            "title": "Публичные формы",
+            "route": "public-forms",
+            "icon": "input-cursor-text",
+            "permission": "settings.view"
+        }
+    ],
+    "assets": {
+        "css": [
+            "web/assets/css/public-forms.css"
+        ],
+        "js_routes": {
+            "module-public-forms": "web/assets/js/public-forms.js",
+            "public-form": "web/assets/js/public-forms.js"
+        }
+    },
+    "mcp_tools": [
+        {
+            "name": "forms_list",
+            "description": "List configured public intake and booking forms",
+            "handler": "Module\\Crm\\PublicForms\\Mcp\\ListFormsTool",
+            "permissions": [
+                "settings.view"
+            ],
+            "mode": "all",
+            "workspace_required": true,
+            "input_schema": {
+                "type": "object",
+                "properties": [],
+                "additionalProperties": false
+            }
+        }
+    ],
+    "signature": "4f89454fca6af4c2ff137db8a6a9c241f79f659a5fef62f484707c633ee02e89"
+}
