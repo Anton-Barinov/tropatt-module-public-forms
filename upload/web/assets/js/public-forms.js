@@ -69,7 +69,7 @@
     const name = document.createElement('input');
     name.className = 'form-control';
     name.maxLength = 64;
-    name.pattern = '[A-Za-z][A-Za-z0-9_-]{0,63}';
+    name.pattern = '[A-Za-z][-A-Za-z0-9_]{0,63}';
     name.required = true;
     name.value = String(field.name || 'field_' + (container.children.length + 1));
     nameLabel.appendChild(name);

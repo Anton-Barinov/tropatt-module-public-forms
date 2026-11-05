@@ -183,10 +183,11 @@ final class PublicFormsApiController extends BaseController
         if ($contentType !== 'application/json') {
             return $this->error('UNSUPPORTED_MEDIA_TYPE', 'Requests must use application/json.', 415);
         }
-        if (!is_array($request->jsonBody) || array_is_list($request->jsonBody)) {
+        $json = json_decode($request->rawBody, true);
+        if (!is_array($json) || array_is_list($json)) {
             return $this->error('INVALID_REQUEST_BODY', 'Request body must be a JSON object.', 400);
         }
-        return $request->jsonBody;
+        return $json;
     }
 
     public function getForm(array $params): JsonResponse
