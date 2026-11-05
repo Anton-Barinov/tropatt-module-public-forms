@@ -554,6 +554,9 @@
         result.className = 'mt-3 text-muted';
         result.textContent = 'Отправляем обращение…';
         const payload = Object.fromEntries(new FormData(formElement).entries());
+        if (form.form_type !== 'booking' || !payload._booking_slot) {
+          delete payload._booking_slot;
+        }
         payload.consent_agreed = $('publicFormConsent').checked ? '1' : '';
         try {
           const submitUrl = publicApiUrl(prefix + '/forms/' + encodeURIComponent(slug) + '/submit');

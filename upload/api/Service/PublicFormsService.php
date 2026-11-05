@@ -635,7 +635,7 @@ final class PublicFormsService
 
         $key = trim((string)($data['_idempotency_key'] ?? ''));
         $bookingSlotInput = $data['_booking_slot'] ?? null;
-        unset($data['_hp_website'], $data['_t_token'], $data['_idempotency_key'], $data['consent_agreed'], $data['_booking_slot']);
+        unset($data['route'], $data['_route_'], $data['_hp_website'], $data['_t_token'], $data['_idempotency_key'], $data['consent_agreed'], $data['_booking_slot']);
         if ($key === '' || strlen($key) > 128 || preg_match('/^[A-Za-z0-9._:-]{16,128}$/D', $key) !== 1) {
             throw new PublicFormSubmissionException('IDEMPOTENCY_KEY_REQUIRED', 'A valid submission key is required. Reload the form and try again.', 400);
         }

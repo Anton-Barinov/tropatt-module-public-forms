@@ -237,7 +237,12 @@ final class PublicFormsApiController extends BaseController
         if ($contentType !== 'application/json') {
             return $this->error('UNSUPPORTED_MEDIA_TYPE', 'Submissions must use application/json.', 415);
         }
-        $data = $this->request()->allInput();
+        $raw = trim($request->rawBody);
+        $data = $raw !== '' ? json_decode($raw, true) : null;
+        if (!is_array($data) || array_is_list($data)) {
+            $data = is_array($request->allInput()) ? $request->allInput() : [];
+        }
+        unset($data['route'], $data['_route_']);
         $headerKey = trim((string)($request->header('Idempotency-Key') ?? ''));
         if ($headerKey !== '') {
             $data['_idempotency_key'] = $headerKey;
