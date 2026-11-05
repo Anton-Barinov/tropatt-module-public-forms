@@ -131,6 +131,15 @@ final class PublicFormsApiController extends BaseController
         return $this->success('PUBLIC_FORM_PUBLICATION_UPDATED', $input['is_published'] ? 'Form published.' : 'Form unpublished.', ['is_published' => $input['is_published']]);
     }
 
+    public function adminDeleteForm(array $params): JsonResponse
+    {
+        $access = $this->authorizeManager('settings.edit');
+        if ($access instanceof JsonResponse) return $access;
+        $deleted = $this->getService()->deleteForm($access[0], (string)($params['public_id'] ?? ''));
+        if (!$deleted) return $this->error('NOT_FOUND', 'Form not found in this workspace.', 404);
+        return $this->success('PUBLIC_FORM_DELETED', 'Form deleted.', ['deleted' => true]);
+    }
+
     public function adminListCalendarUsers(): JsonResponse
     {
         $access = $this->authorizeManager('settings.view');
@@ -215,7 +224,7 @@ final class PublicFormsApiController extends BaseController
         $service = $this->getService(true);
         $request = $this->request();
         $contentLength = (int)($request->server['CONTENT_LENGTH'] ?? $request->server['HTTP_CONTENT_LENGTH'] ?? 0);
-        if ($contentLength > 32768 || strlen($request->rawBody) > 32768) {
+        if ($request->bodyTooLarge || $contentLength > 32768 || strlen($request->rawBody) > 32768) {
             return $this->error('PAYLOAD_TOO_LARGE', 'Submission exceeds the 32 KB limit.', 413);
         }
         $contentType = strtolower(trim(explode(';', (string)($request->header('Content-Type') ?? ''))[0]));
