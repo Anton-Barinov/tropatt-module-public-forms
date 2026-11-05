@@ -181,7 +181,7 @@ final class PublicFormsService
         $stmt = $this->db->prepare(
             "INSERT INTO crm_public_forms
              (public_id, organization_id, slug, title, description, form_type, fields_schema_json, consent_text, consent_version, target_project_public_id, target_assignee_user_public_id, calendar_user_public_id, slot_duration_minutes, buffer_minutes, booking_timezone, booking_schedule_json, is_published, created_at, updated_at)
-             VALUES (:pub_id, :org_id, :slug, :title, :description, :type, :fields, :consent, 1, :proj, :assignee, :cal_usr, :slot_dur, :buf, :timezone, :schedule, 0, :now, :now)"
+             VALUES (:pub_id, :org_id, :slug, :title, :description, :type, :fields, :consent, 1, :proj, :assignee, :cal_usr, :slot_dur, :buf, :timezone, :schedule, 0, :created_at, :updated_at)"
         );
         $stmt->execute([
             ':pub_id' => $pubId,
@@ -199,7 +199,8 @@ final class PublicFormsService
             ':buf' => $bufferMinutes,
             ':timezone' => $bookingTimezone,
             ':schedule' => json_encode($bookingSchedule, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR),
-            ':now' => $now,
+            ':created_at' => $now,
+            ':updated_at' => $now,
         ]);
 
         return $pubId;
