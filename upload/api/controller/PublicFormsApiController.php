@@ -39,7 +39,9 @@ final class PublicFormsApiController extends BaseController
         if ($contextError !== null) {
             return $contextError;
         }
-        $user = (array)$auth['user'];
+        $user = method_exists($this, 'organizationScopedActor')
+            ? $this->organizationScopedActor((array)$auth['user'])
+            : (array)$auth['user'];
         if (!empty($user['is_external']) && empty($user['is_root'])) {
             return $this->error('FORBIDDEN', 'External client accounts cannot manage public forms.', 403);
         }
@@ -110,8 +112,11 @@ final class PublicFormsApiController extends BaseController
             return $this->success('PUBLIC_FORM_CREATED', 'Draft form created.', ['public_id' => $publicId], 201);
         } catch (\InvalidArgumentException) {
             return $this->error('VALIDATION_ERROR', 'The form settings or one of its fields is invalid.', 422);
-        } catch (\PDOException) {
-            return $this->error('FORM_CONFLICT', 'This form URL is already used. Choose a different URL slug.', 409);
+        } catch (\PDOException $e) {
+            if ($e->getCode() === '23000' || str_contains($e->getMessage(), '1062 Duplicate entry')) {
+                return $this->error('FORM_CONFLICT', 'This form URL is already used. Choose a different URL slug.', 409);
+            }
+            return $this->error('FORM_SAVE_FAILED', 'The form could not be saved: ' . $e->getMessage(), 500);
         } catch (Throwable) {
             return $this->error('FORM_SAVE_FAILED', 'The form could not be saved.', 500);
         }
