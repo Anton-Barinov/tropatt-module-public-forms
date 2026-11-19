@@ -11,7 +11,7 @@ A module for the [TropaTT](https://github.com/Anton-Barinov/TropaTT) self-hosted
 | Field | Value |
 |---|---|
 | Module Code | `crm.public-forms` |
-| Version | `1.0.8` |
+| Version | `1.0.13` |
 | Category | Integration |
 | Core Compatibility | `>=1.0.0` |
 | Author | [Anton Barinov](https://github.com/Anton-Barinov) |
@@ -26,7 +26,7 @@ A module for the [TropaTT](https://github.com/Anton-Barinov/TropaTT) self-hosted
 
 ### Method 2: Manual ZIP Upload
 
-1. Download `crm.public-forms-1.0.8.zip` from the [Releases](https://github.com/Anton-Barinov/tropatt-module-public-forms/releases) tab.
+1. Download `crm.public-forms-1.0.13.zip` from the [Releases](https://github.com/Anton-Barinov/tropatt-module-public-forms/releases) tab.
 2. In TropaTT CRM, navigate to **Admin → Modules**.
 3. Click **Upload Module** and select the downloaded ZIP file.
 4. Activate and configure the module in **Admin → Modules**.
